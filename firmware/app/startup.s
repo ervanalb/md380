@@ -71,6 +71,8 @@ defined in linker script */
   .weak  Reset_Handler
   .type  Reset_Handler, %function
 Reset_Handler:  
+  // Is this a bad idea?
+  bl main
 
 /* Copy the data segment initializers from flash to SRAM */  
   movs  r1, #0
