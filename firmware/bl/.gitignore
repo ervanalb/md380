@@ -1,0 +1,6 @@
+*.map
+*.bin
+*.elf
+*.o
+build
+.gdbinit
