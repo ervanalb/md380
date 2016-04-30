@@ -6,11 +6,8 @@ int main() {
 
     static volatile uint32_t keyboard;
 
+    lcd_test();
+
     for(;;) {
-        if(get_ptt()) {
-            red_led_on();
-        } else {
-            red_led_off();
-        }
     }
 }

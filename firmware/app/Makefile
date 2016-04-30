@@ -34,7 +34,7 @@ GITSUFFIX = $(shell git status|grep "Changes.* commit.*:">/dev/null && echo "+")
 
 # Assembler, compiler, and linker flags
 AFLAGS	= -mlittle-endian -mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard
-CFLAGS	= $(AFLAGS) -g -O2 -flto $(INC) -std=c99 -DUSE_STDPERIPH_DRIVER -Wall -Wundef
+CFLAGS	= $(AFLAGS) -g -O0 $(INC) -std=c99 -DUSE_STDPERIPH_DRIVER -Wall -Wundef
 CFLAGS += -DARM_MATH_CM4 -D'__FPU_PRESENT=1'
 CFLAGS += -D'HSE_VALUE=((uint32_t)8000000)'
 CFLAGS += -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx
