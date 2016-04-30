@@ -8,12 +8,17 @@ void green_led_on();
 void green_led_off();
 void red_led_on();
 void red_led_off();
-uint8_t get_lcd_data();
-void put_lcd_data(uint8_t data);
 uint32_t read_keyboard();
 uint8_t get_ptt();
 void lcd_backlight_on();
 void lcd_backlight_off();
+void lcd_assert_cs();
+void lcd_deassert_cs();
+void lcd_write16(uint16_t data);
+void lcd_write(uint8_t byte);
+void lcd_write_command(uint8_t byte);
+uint8_t lcd_read();
+void delay_us(uint32_t n);
 
 // Keyboard bits
 #define KEY_1     0x000001
