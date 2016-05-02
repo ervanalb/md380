@@ -19,6 +19,7 @@ void lcd_write(uint8_t byte);
 void lcd_write_command(uint8_t byte);
 uint8_t lcd_read();
 void delay_us(uint32_t n);
+uint8_t get_encoder();
 
 // Keyboard bits
 #define KEY_1     0x000001

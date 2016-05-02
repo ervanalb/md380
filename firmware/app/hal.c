@@ -1,6 +1,8 @@
 #include "hal.h"
 #include "stm32f4xx.h"
 
+static const uint8_t encoder_mapping[] = {11, 14, 10, 15, 6, 3, 7, 2, 12, 13, 9, 16, 5, 4, 8, 1};
+
 static void reset_lcd() {
     GPIO_ResetBits(GPIOD, GPIO_Pin_13);
     delay_us(10);
@@ -95,8 +97,9 @@ static void put_lcd_data(uint8_t data) {
 void init() {
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOC |
-                           RCC_AHB1Periph_GPIOE | RCC_AHB1Periph_GPIOD, ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOB | 
+                           RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOD |
+                           RCC_AHB1Periph_GPIOE, ENABLE);
 
     // Green / Red LED
     green_led_off();
@@ -142,6 +145,16 @@ void init() {
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+    // Encoder
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14 | GPIO_Pin_15;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_Init(GPIOE, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 
 void lcd_backlight_on() {GPIO_SetBits(GPIOC, GPIO_Pin_6);}
@@ -231,6 +244,13 @@ void red_led_off() {
 
 uint8_t get_ptt() {
     return !(GPIO_ReadInputData(GPIOE) & GPIO_Pin_11);
+}
+
+uint8_t get_encoder() {
+    uint16_t gpioe = GPIO_ReadInputData(GPIOE);
+    uint16_t gpiob = GPIO_ReadInputData(GPIOB);
+    return encoder_mapping[((gpioe & (GPIO_Pin_14 | GPIO_Pin_15)) >> 14) |
+                           ((gpiob & (GPIO_Pin_10 | GPIO_Pin_11)) >> 8)];
 }
 
 // TODO improve this a lot

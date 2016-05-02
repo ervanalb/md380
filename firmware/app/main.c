@@ -15,7 +15,7 @@ uint16_t sprite[] = {
 int main() {
     init();
 
-    static volatile uint32_t keyboard;
+    static volatile uint32_t a;
 
     lcd_on();
     lcd_backlight_on();
@@ -25,5 +25,6 @@ int main() {
     lcd_blit(45, 45, 5, 5, sprite);
 
     for(;;) {
+        a = get_encoder();
     }
 }
